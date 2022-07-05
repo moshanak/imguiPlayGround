@@ -1,0 +1,18 @@
+# 未記入の項目のデフォルト設定を決める
+BasedOnStyle: MicroSoft
+# private, public 等のアクセス指定子の表示位置
+AccessModifierOffset: -4
+# 初期化子の表示スタイル
+BreakConstructorInitializers: BeforeComma
+# インデントの幅
+IndentWidth: 4
+# タブの幅
+TabWidth: 4
+# インデントがスペースではなくタブになる
+UseTab: true
+# 関数を１行で表示するかどうか
+AllowShortFunctionsOnASingleLine: Inline
+# ポインタ*や参照&の表示位置
+PointerAlignment: Left
+# １行に表示する文字数の制限で　0 だと無限になる
+ColumnLimit: 0
