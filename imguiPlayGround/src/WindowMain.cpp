@@ -1,4 +1,5 @@
 #include "WindowMain.h"
+#include "Scene.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <imgui/imgui.h>
@@ -62,11 +63,10 @@ void WindowMain::executeEventLoop()
 	bool show_another_window = true;
 	ImVec4 clear_color = ImVec4(1.00f, 0.55f, 0.60f, 1.00f);
 
+	Scene scene;
+
 	while (glfwWindowShouldClose(glfwWindow_) == GL_FALSE)
 	{
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
 		// wait or no wait mouse events
 		// glfwWaitEvents();
 		glfwPollEvents();
@@ -114,12 +114,9 @@ void WindowMain::executeEventLoop()
 		}
 
 		// Rendering
+		scene.draw();
+
 		ImGui::Render();
-		int display_w, display_h;
-		glfwGetFramebufferSize(glfwWindow_, &display_w, &display_h);
-		glViewport(0, 0, display_w, display_h);
-		glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-		glClear(GL_COLOR_BUFFER_BIT);
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		glfwSwapBuffers(glfwWindow_);
