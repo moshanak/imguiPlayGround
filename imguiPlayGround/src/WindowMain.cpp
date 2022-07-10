@@ -1,4 +1,5 @@
 #include "WindowMain.h"
+#include "GLSLManager.h"
 #include "Scene.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -6,6 +7,18 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <iostream>
+
+void GLAPIENTRY messageCallback(
+	GLenum source,
+	GLenum type,
+	GLuint /* id*/,
+	GLenum severity,
+	GLsizei /*length*/,
+	const GLchar* message,
+	const void* /*userParam*/)
+{
+	std::cout << "GL CALLBACK: " << source << " type = " << type << ", severity = " << severity << ", message = " << message << std::endl;
+}
 
 WindowMain& WindowMain::getInstance()
 {
@@ -21,10 +34,10 @@ void WindowMain::initWindowMain()
 		exit(1);
 	}
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	// glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	// glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	// glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	// glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	glfwWindow_ = glfwCreateWindow(1920, 1080, "Hello!", nullptr, nullptr);
 	if (glfwWindow_ == nullptr)
@@ -40,6 +53,10 @@ void WindowMain::initWindowMain()
 		std::cerr << "Failed to init glew!!" << std::endl;
 		exit(1);
 	}
+#ifdef _DEBUG
+	glEnable(GL_DEBUG_OUTPUT);
+	glDebugMessageCallback(messageCallback, 0);
+#endif //  _DEBUG
 
 	glfwSwapInterval(1);
 
@@ -63,6 +80,8 @@ void WindowMain::executeEventLoop()
 	bool show_another_window = true;
 	ImVec4 clear_color = ImVec4(1.00f, 0.55f, 0.60f, 1.00f);
 
+	GLSLManager::getInstance().buildAllGLSL();
+
 	Scene scene;
 
 	while (glfwWindowShouldClose(glfwWindow_) == GL_FALSE)
@@ -70,6 +89,8 @@ void WindowMain::executeEventLoop()
 		// wait or no wait mouse events
 		// glfwWaitEvents();
 		glfwPollEvents();
+
+		glfwGetFramebufferSize(glfwWindow_, &width_, &height_);
 
 		// Start the Dear ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
@@ -124,6 +145,8 @@ void WindowMain::executeEventLoop()
 }
 
 WindowMain::WindowMain()
+	: width_(0)
+	, height_(0)
 {
 }
 WindowMain::~WindowMain()

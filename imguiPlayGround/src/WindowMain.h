@@ -13,8 +13,13 @@ public:
 
 	void executeEventLoop();
 
+	const int& getWidth() const { return width_; }
+	const int& getHeight() const { return height_; }
+
 private:
 	WindowMain();
 
 	GLFWwindow* glfwWindow_;
+	int width_;
+	int height_;
 };
