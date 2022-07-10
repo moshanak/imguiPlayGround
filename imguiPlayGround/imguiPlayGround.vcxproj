@@ -150,6 +150,9 @@
     <ClCompile Include="..\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Actor.cpp" />
     <ClCompile Include="src\ActorCoordinateAxis.cpp" />
+    <ClCompile Include="src\GLSL.cpp" />
+    <ClCompile Include="src\GLSLManager.cpp" />
+    <ClCompile Include="src\GLSLPassthrough.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\WindowMain.cpp" />
@@ -166,6 +169,9 @@
     <ClInclude Include="..\include\imgui\imstb_truetype.h" />
     <ClInclude Include="src\Actor.h" />
     <ClInclude Include="src\ActorCoordinateAxis.h" />
+    <ClInclude Include="src\GLSL.h" />
+    <ClInclude Include="src\GLSLManager.h" />
+    <ClInclude Include="src\GLSLPassthrough.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\WindowMain.h" />
   </ItemGroup>
