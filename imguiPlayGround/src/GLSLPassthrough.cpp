@@ -29,3 +29,15 @@ void main()
 
 	link();
 }
+
+void GLSLPassthrough::setMVP(const glm::mat4& mvp) const
+{
+	const GLuint mvpLocation = glGetUniformLocation(program_, "MVP");
+	glProgramUniformMatrix4fv(program_, mvpLocation, 1, false, &mvp[0][0]);
+}
+
+void GLSLPassthrough::setOutputColor(const glm::vec4& outputColor) const
+{
+	const GLuint colorLocation = glGetUniformLocation(program_, "OutputColor");
+	glProgramUniform4fv(program_, colorLocation, 1, &outputColor[0]);
+}

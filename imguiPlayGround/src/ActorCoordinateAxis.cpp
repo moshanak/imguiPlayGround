@@ -1,5 +1,6 @@
 #include "ActorCoordinateAxis.h"
 #include "GLSLManager.h"
+#include "GLSLPassthrough.h"
 #include "Scene.h"
 #include "WindowMain.h"
 #include <array>
@@ -60,25 +61,22 @@ void ActorCoordinateAxis::draw()
 	glBindBuffer(GL_ARRAY_BUFFER, coordinateBuffer_);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-	const GLuint programHandle = GLSLManager::getInstance().getProgramHandle(GLSLType::passthrough);
+	const GLSLPassthrough& glslPassthrough = static_cast<const GLSLPassthrough&>(GLSLManager::getInstance().getGLSL(GLSLType::passthrough));
+	glslPassthrough.setMVP(mvpMat4_);
 
-	const GLuint mvpLocation = glGetUniformLocation(programHandle, "MVP");
-	glProgramUniformMatrix4fv(programHandle, mvpLocation, 1, false, &mvpMat4_[0][0]);
-	const GLuint colorLocation = glGetUniformLocation(programHandle, "OutputColor");
-
-	glUseProgram(programHandle);
+	glUseProgram(glslPassthrough.getProgram());
 	glLineWidth(5.0f);
 	glPointSize(10.0f);
 	glm::vec4 color(1.0f, 0.0f, 0.0f, 1.0f);
-	glProgramUniform4fv(programHandle, colorLocation, 1, &color[0]);
+	glslPassthrough.setOutputColor(color);
 	glDrawArrays(GL_LINES, 0, 2);
 	glDrawArrays(GL_POINTS, 1, 1);
 	color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
-	glProgramUniform4fv(programHandle, colorLocation, 1, &color[0]);
+	glslPassthrough.setOutputColor(color);
 	glDrawArrays(GL_LINES, 2, 2);
 	glDrawArrays(GL_POINTS, 3, 1);
 	color = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-	glProgramUniform4fv(programHandle, colorLocation, 1, &color[0]);
+	glslPassthrough.setOutputColor(color);
 	glDrawArrays(GL_LINES, 4, 2);
 	glDrawArrays(GL_POINTS, 5, 1);
 	glUseProgram(0);

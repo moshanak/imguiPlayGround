@@ -15,9 +15,9 @@ void GLSLManager::buildAllGLSL()
 	}
 }
 
-GLuint GLSLManager::getProgramHandle(GLSLType type)
+const GLSL& GLSLManager::getGLSL(GLSLType type)
 {
-	return glslHashTable_[type]->getProgram();
+	return *glslHashTable_[type];
 }
 
 GLSLManager::GLSLManager()

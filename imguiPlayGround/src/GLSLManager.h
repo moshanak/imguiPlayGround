@@ -13,7 +13,7 @@ class GLSLManager
 public:
 	static GLSLManager& getInstance();
 	void buildAllGLSL();
-	GLuint getProgramHandle(GLSLType type);
+	const GLSL& getGLSL(GLSLType type);
 
 private:
 	GLSLManager();
