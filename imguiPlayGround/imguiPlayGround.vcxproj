@@ -151,6 +151,7 @@
     <ClCompile Include="..\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Actor.cpp" />
+    <ClCompile Include="src\ActorBackground.cpp" />
     <ClCompile Include="src\ActorCoordinateAxis.cpp" />
     <ClCompile Include="src\GLSL.cpp" />
     <ClCompile Include="src\GLSLManager.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="..\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\include\imgui\imstb_truetype.h" />
     <ClInclude Include="src\Actor.h" />
+    <ClInclude Include="src\ActorBackground.h" />
     <ClInclude Include="src\ActorCoordinateAxis.h" />
     <ClInclude Include="src\GLSL.h" />
     <ClInclude Include="src\GLSLManager.h" />

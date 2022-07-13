@@ -19,6 +19,7 @@ public:
 	const glm::vec2& prevMousePos() const { return prevMousePos_; }
 	const bool& pressMouseButtonRight() const { return pressMouseButtonRight_; }
 	const bool& pressMouseButtonLeft() const { return pressMouseButtonLeft_; }
+	const glm::vec3& backgroundColor() const { return backgroundColor_; }
 
 private:
 	WindowMain();
@@ -30,4 +31,5 @@ private:
 	glm::vec2 prevMousePos_;
 	bool pressMouseButtonRight_;
 	bool pressMouseButtonLeft_;
+	glm::vec3 backgroundColor_;
 };
