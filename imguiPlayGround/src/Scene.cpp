@@ -8,6 +8,14 @@ Scene::Scene()
 	actors_.emplace_back(std::make_shared<ActorCoordinateAxis>());
 }
 
+void Scene::update()
+{
+	for (auto& actor : actors_)
+	{
+		actor->update();
+	}
+}
+
 void Scene::draw()
 {
 	const WindowMain& windowMain = WindowMain::getInstance();

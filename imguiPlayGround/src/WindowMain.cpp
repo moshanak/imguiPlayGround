@@ -134,11 +134,19 @@ void WindowMain::executeEventLoop()
 			ImGui::End();
 		}
 
+		glfwGetCursorPos(glfwWindow_, &x_, &y_);
+		pushRight_ = (glfwGetMouseButton(glfwWindow_, 1) == GLFW_PRESS);
+
+		scene.update();
+
 		// Rendering
 		scene.draw();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		prevx_ = x_;
+		prevy_ = y_;
 
 		glfwSwapBuffers(glfwWindow_);
 	}

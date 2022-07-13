@@ -11,4 +11,8 @@ public:
 
 private:
 	GLuint coordinateBuffer_;
+	glm::mat4 projMat4_;
+	glm::mat4 viewMat4_;
+	glm::mat4 modelMat4_;
+	glm::mat4 mvpMat4_;
 };

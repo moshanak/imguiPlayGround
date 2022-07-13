@@ -1,5 +1,7 @@
 #pragma once
 #include <GL/glew.h>
+#include <glm/ext.hpp>
+#include <glm/glm.hpp>
 
 class Actor
 {

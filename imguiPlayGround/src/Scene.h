@@ -7,6 +7,7 @@ class Scene
 {
 public:
 	Scene();
+	void update();
 	void draw();
 
 private:
