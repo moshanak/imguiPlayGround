@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "ActorBackground.h"
 #include "ActorCoordinateAxis.h"
 #include "WindowMain.h"
 #include <GL/glew.h>
@@ -11,6 +12,7 @@ void Scene::init()
 {
 	viewMat4_ = glm::lookAt(glm::vec3(0, 0, 1), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	updateProjMat4();
+	actors_.emplace_back(std::make_shared<ActorBackground>(weak_from_this()));
 	actors_.emplace_back(std::make_shared<ActorCoordinateAxis>(weak_from_this()));
 }
 
@@ -26,10 +28,7 @@ void Scene::update()
 void Scene::draw()
 {
 	const WindowMain& windowMain = WindowMain::getInstance();
-
 	glViewport(0, 0, windowMain.width(), windowMain.height());
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
 
 	for (auto& actor : actors_)
 	{
