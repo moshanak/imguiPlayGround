@@ -1,5 +1,5 @@
 #pragma once
-
+#include <glm/glm.hpp>
 struct GLFWwindow;
 
 class WindowMain
@@ -13,13 +13,12 @@ public:
 
 	void executeEventLoop();
 
-	const int& getWidth() const { return width_; }
-	const int& getHeight() const { return height_; }
-	const double& getX() const { return x_; }
-	const double& getY() const { return y_; }
-	const double& getprevX() const { return prevx_; }
-	const double& getprevY() const { return prevy_; }
-	const bool& pushRight() const { return pushRight_; }
+	const int& width() const { return width_; }
+	const int& height() const { return height_; }
+	const glm::vec2& curMousePos() const { return curMousePos_; }
+	const glm::vec2& prevMousePos() const { return prevMousePos_; }
+	const bool& pressMouseButtonRight() const { return pressMouseButtonRight_; }
+	const bool& pressMouseButtonLeft() const { return pressMouseButtonLeft_; }
 
 private:
 	WindowMain();
@@ -27,9 +26,8 @@ private:
 	GLFWwindow* glfwWindow_;
 	int width_;
 	int height_;
-	double x_;
-	double y_;
-	double prevx_;
-	double prevy_;
-	bool pushRight_;
+	glm::vec2 curMousePos_;
+	glm::vec2 prevMousePos_;
+	bool pressMouseButtonRight_;
+	bool pressMouseButtonLeft_;
 };

@@ -1,35 +1,28 @@
 #include "ActorCoordinateAxis.h"
 #include "GLSLManager.h"
+#include "Scene.h"
 #include "WindowMain.h"
 #include <array>
 #include <glm/gtx/quaternion.hpp>
 #include <vector>
 
-ActorCoordinateAxis::ActorCoordinateAxis()
+ActorCoordinateAxis::ActorCoordinateAxis(std::weak_ptr<Scene> scene)
+	: Actor(scene)
+	, yaw_(0.0f)
+	, pitch_(0.0f)
 {
-	viewMat4_ = glm::lookAt(glm::vec3(0, 0, 0.1), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	modelMat4_ = glm::mat4(1.0f);
 	mvpMat4_ = glm::mat4(1.0f);
 
+	// clang-format off
 	std::vector<float> coordinates = {
-		0.0f,
-		0.0f,
-		0.0f,
-		50.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		50.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		50.0f};
+		0.0f,	0.0f,	0.0f,
+		50.0f,	0.0f,	0.0f,
+		0.0f,	0.0f,	0.0f,
+		0.0f,	50.0f,	0.0f,
+		0.0f,	0.0f,	0.0f,
+		0.0f,	0.0f,	50.0f};
+	// clang-format on
 
 	glGenBuffers(1, &coordinateBuffer_);
 	glBindBuffer(GL_ARRAY_BUFFER, coordinateBuffer_);
@@ -42,58 +35,22 @@ ActorCoordinateAxis::~ActorCoordinateAxis()
 	coordinateBuffer_ = 0;
 }
 
-float mYaw = 0.0f;
-float mPitch = 0.0f;
-
-glm::quat get_direction()
-{
-	return glm::quat(glm::vec3(-mPitch, -mYaw, 0.0f));
-}
-
-glm::vec3 get_up()
-{
-	const glm::vec3 cUp = {0.0f, 1.0f, 0.0f};
-	return glm::rotate(get_direction(), cUp);
-}
-
-glm::vec3 get_right()
-{
-	const glm::vec3 cRight = {1.0f, 0.0f, 0.0f};
-	return glm::rotate(get_direction(), cRight);
-}
-
-glm::vec3 get_forward()
-{
-	const glm::vec3 cForward = {0.0f, 0.0f, -1.0f};
-	return glm::rotate(get_direction(), cForward);
-}
-
 void ActorCoordinateAxis::update()
 {
-
 	WindowMain& windowMain = WindowMain::getInstance();
-	if (windowMain.pushRight())
+	if (windowMain.pressMouseButtonRight())
 	{
-		glm::vec2 curPos(windowMain.getX(), windowMain.getY());
-		glm::vec2 prevPos(windowMain.getprevX(), windowMain.getprevY());
-		glm::vec2 delta = (curPos - prevPos) * 0.004f;
-		float cRotationSpeed = 1.0f;
-
-		float sign = get_up().y < 0 ? -1.0f : 1.0f;
-		mYaw += sign * delta.x * cRotationSpeed;
-		mPitch += delta.y * cRotationSpeed;
+		const glm::vec2 delta = (windowMain.curMousePos() - windowMain.prevMousePos()) * 0.004f;
+		const glm::vec3 cUp = {0.0f, 1.0f, 0.0f};
+		float sign = glm::rotate(glm::quat(glm::vec3(-pitch_, -yaw_, 0.0f)), cUp).y < 0 ? -1.0f : 1.0f;
+		yaw_ += sign * delta.x;
+		pitch_ += delta.y;
 	}
 
-	// projMat4_ = glm::perspective(glm::radians(45.f), 1.33f, 0.1f, 10.f);
-	const float halfWidth = 0.5f * static_cast<float>(windowMain.getWidth());
-	const float halfHeight = 0.5f * static_cast<float>(windowMain.getHeight());
-	projMat4_ = glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, -60.0f, 60.0f);
-
-	// modelMat4_ = glm::rotate(modelMat4_, 0.1f, glm::vec3(0, 0, 1));
-	modelMat4_ = glm::toMat4(get_direction());
+	modelMat4_ = glm::toMat4(glm::quat(glm::vec3(-pitch_, -yaw_, 0.0f)));
 	modelMat4_ = glm::inverse(modelMat4_);
-	/// glm::qua
-	mvpMat4_ = projMat4_ * viewMat4_ * modelMat4_;
+	std::shared_ptr<Scene> scene = scene_.lock();
+	mvpMat4_ = scene->getProjMat4() * scene->getViewMat4() * modelMat4_;
 }
 
 void ActorCoordinateAxis::draw()

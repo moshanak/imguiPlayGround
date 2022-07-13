@@ -39,7 +39,7 @@ void WindowMain::initWindowMain()
 	// glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	// glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	glfwWindow_ = glfwCreateWindow(1920, 1080, "Hello!", nullptr, nullptr);
+	glfwWindow_ = glfwCreateWindow(width_, height_, "imgui playground", nullptr, nullptr);
 	if (glfwWindow_ == nullptr)
 	{
 		std::cerr << "Failed to create window!!" << std::endl;
@@ -82,7 +82,8 @@ void WindowMain::executeEventLoop()
 
 	GLSLManager::getInstance().buildAllGLSL();
 
-	Scene scene;
+	std::shared_ptr<Scene> scene = std::make_shared<Scene>();
+	scene->init();
 
 	while (glfwWindowShouldClose(glfwWindow_) == GL_FALSE)
 	{
@@ -134,29 +135,40 @@ void WindowMain::executeEventLoop()
 			ImGui::End();
 		}
 
-		glfwGetCursorPos(glfwWindow_, &x_, &y_);
-		pushRight_ = (glfwGetMouseButton(glfwWindow_, 1) == GLFW_PRESS);
+		// update input information
+		{
+			double x, y;
+			glfwGetCursorPos(glfwWindow_, &x, &y);
+			curMousePos_.x = static_cast<float>(x);
+			curMousePos_.y = static_cast<float>(y);
+		}
 
-		scene.update();
+		pressMouseButtonRight_ = (glfwGetMouseButton(glfwWindow_, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS);
+		pressMouseButtonLeft_ = (glfwGetMouseButton(glfwWindow_, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
+
+		// update draw actors
+		scene->update();
 
 		// Rendering
-		scene.draw();
+		scene->draw();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		prevx_ = x_;
-		prevy_ = y_;
+		prevMousePos_ = curMousePos_;
 
 		glfwSwapBuffers(glfwWindow_);
 	}
 }
 
 WindowMain::WindowMain()
-	: width_(0)
-	, height_(0)
+	: width_(1920)
+	, height_(1080)
+	, pressMouseButtonRight_(false)
+	, pressMouseButtonLeft_(false)
 {
 }
+
 WindowMain::~WindowMain()
 {
 	// Cleanup
