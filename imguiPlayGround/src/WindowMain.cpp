@@ -146,6 +146,10 @@ void WindowMain::executeEventLoop()
 
 		pressMouseButtonRight_ = (glfwGetMouseButton(glfwWindow_, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS);
 		pressMouseButtonLeft_ = (glfwGetMouseButton(glfwWindow_, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
+		pressKeyRight_ = (glfwGetKey(glfwWindow_, GLFW_KEY_RIGHT) == GLFW_PRESS);
+		pressKeyLeft_ = (glfwGetKey(glfwWindow_, GLFW_KEY_LEFT) == GLFW_PRESS);
+		pressKeyDown_ = (glfwGetKey(glfwWindow_, GLFW_KEY_DOWN) == GLFW_PRESS);
+		pressKeyUp_ = (glfwGetKey(glfwWindow_, GLFW_KEY_UP) == GLFW_PRESS);
 
 		// update draw actors
 		scene->update();
