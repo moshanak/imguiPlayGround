@@ -1,5 +1,8 @@
 #pragma once
 #include "Actor.h"
+#include <fbxsdk.h>
+#include <map>
+#include <string>
 
 class ActorCube : public Actor
 {
@@ -15,4 +18,7 @@ private:
 	glm::mat4 mvpMat4_;
 	float yaw_;
 	float pitch_;
+	int numOfPoints_;
+
+	void CollectMeshNode(FbxNode* node, std::map<std::string, FbxNode*>& list);
 };
