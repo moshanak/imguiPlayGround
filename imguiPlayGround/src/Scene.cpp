@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "ActorBackground.h"
 #include "ActorCoordinateAxis.h"
-#include "ActorCube.h"
+#include "ActorFbx.h"
 #include "WindowMain.h"
 #include <GL/glew.h>
 
@@ -14,8 +14,8 @@ void Scene::init()
 	viewMat4_ = glm::lookAt(glm::vec3(0, 0, 1), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	updateProjMat4();
 	actors_.emplace_back(std::make_shared<ActorBackground>(weak_from_this()));
-	// actors_.emplace_back(std::make_shared<ActorCube>(weak_from_this(), "resource\\cube.fbx"));
-	actors_.emplace_back(std::make_shared<ActorCube>(weak_from_this(), "resource\\sphere.fbx"));
+	// actors_.emplace_back(std::make_shared<ActorFbx>(weak_from_this(), "resource\\cube.fbx"));
+	actors_.emplace_back(std::make_shared<ActorFbx>(weak_from_this(), "resource\\sphere.fbx"));
 	actors_.emplace_back(std::make_shared<ActorCoordinateAxis>(weak_from_this()));
 }
 
