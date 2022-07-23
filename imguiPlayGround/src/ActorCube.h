@@ -7,7 +7,7 @@
 class ActorCube : public Actor
 {
 public:
-	ActorCube(std::weak_ptr<Scene> scene);
+	ActorCube(std::weak_ptr<Scene> scene, const std::string& fbxFilePath);
 	~ActorCube();
 	void update() final;
 	void draw() final;

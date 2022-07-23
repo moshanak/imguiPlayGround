@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 
-ActorCube::ActorCube(std::weak_ptr<Scene> scene)
+ActorCube::ActorCube(std::weak_ptr<Scene> scene, const std::string& fbxFilePath)
 	: Actor(scene)
 	, yaw_(0.0f)
 	, pitch_(0.0f)
@@ -42,7 +42,7 @@ ActorCube::ActorCube(std::weak_ptr<Scene> scene)
 		exit(1);
 	}
 
-	if (fbxImporter->Initialize("resource\\cube.fbx") == false)
+	if (fbxImporter->Initialize(fbxFilePath.c_str()) == false)
 	{
 		fbxImporter->Destroy();
 		fbxScene->Destroy();
