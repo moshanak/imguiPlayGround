@@ -1,4 +1,4 @@
-#include "ActorCube.h"
+#include "ActorFbx.h"
 #include "GLSLManager.h"
 #include "GLSLPassthrough.h"
 #include "Scene.h"
@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 
-ActorCube::ActorCube(std::weak_ptr<Scene> scene)
+ActorFbx::ActorFbx(std::weak_ptr<Scene> scene, const std::string& fbxFilePath)
 	: Actor(scene)
 	, yaw_(0.0f)
 	, pitch_(0.0f)
@@ -42,7 +42,7 @@ ActorCube::ActorCube(std::weak_ptr<Scene> scene)
 		exit(1);
 	}
 
-	if (fbxImporter->Initialize("resource\\cube.fbx") == false)
+	if (fbxImporter->Initialize(fbxFilePath.c_str()) == false)
 	{
 		fbxImporter->Destroy();
 		fbxScene->Destroy();
@@ -106,13 +106,13 @@ ActorCube::ActorCube(std::weak_ptr<Scene> scene)
 	}
 }
 
-ActorCube::~ActorCube()
+ActorFbx::~ActorFbx()
 {
 	glDeleteBuffers(1, &coordinateBuffer_);
 	coordinateBuffer_ = 0;
 }
 
-void ActorCube::update()
+void ActorFbx::update()
 {
 	WindowMain& windowMain = WindowMain::getInstance();
 	if (windowMain.pressMouseButtonRight())
@@ -131,7 +131,7 @@ void ActorCube::update()
 	mvpMat4_ = scene->getProjMat4() * scene->getViewMat4() * modelMat4_;
 }
 
-void ActorCube::draw()
+void ActorFbx::draw()
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnableVertexAttribArray(0);
@@ -153,7 +153,7 @@ void ActorCube::draw()
 	glDisableVertexAttribArray(0);
 }
 
-void ActorCube::CollectMeshNode(FbxNode* node, std::map<std::string, FbxNode*>& list)
+void ActorFbx::CollectMeshNode(FbxNode* node, std::map<std::string, FbxNode*>& list)
 {
 	for (int i = 0; i < node->GetNodeAttributeCount(); i++)
 	{

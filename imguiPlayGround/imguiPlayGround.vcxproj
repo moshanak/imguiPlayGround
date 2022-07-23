@@ -161,7 +161,7 @@ xcopy "$(SolutionDir)resource" "$(TargetDir)resource" /Y /I</Command>
     <ClCompile Include="src\Actor.cpp" />
     <ClCompile Include="src\ActorBackground.cpp" />
     <ClCompile Include="src\ActorCoordinateAxis.cpp" />
-    <ClCompile Include="src\ActorCube.cpp" />
+    <ClCompile Include="src\ActorFbx.cpp" />
     <ClCompile Include="src\GLSL.cpp" />
     <ClCompile Include="src\GLSLManager.cpp" />
     <ClCompile Include="src\GLSLPassthrough.cpp" />
@@ -182,7 +182,7 @@ xcopy "$(SolutionDir)resource" "$(TargetDir)resource" /Y /I</Command>
     <ClInclude Include="src\Actor.h" />
     <ClInclude Include="src\ActorBackground.h" />
     <ClInclude Include="src\ActorCoordinateAxis.h" />
-    <ClInclude Include="src\ActorCube.h" />
+    <ClInclude Include="src\ActorFbx.h" />
     <ClInclude Include="src\GLSL.h" />
     <ClInclude Include="src\GLSLManager.h" />
     <ClInclude Include="src\GLSLPassthrough.h" />

@@ -4,11 +4,11 @@
 #include <map>
 #include <string>
 
-class ActorCube : public Actor
+class ActorFbx : public Actor
 {
 public:
-	ActorCube(std::weak_ptr<Scene> scene);
-	~ActorCube();
+	ActorFbx(std::weak_ptr<Scene> scene, const std::string& fbxFilePath);
+	~ActorFbx();
 	void update() final;
 	void draw() final;
 
