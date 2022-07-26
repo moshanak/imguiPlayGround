@@ -3,6 +3,7 @@
 #include "ActorCamera.h"
 #include "ActorCoordinateAxis.h"
 #include "ActorFbx.h"
+#include "ActorGrid.h"
 #include "WindowMain.h"
 #include <GL/glew.h>
 
@@ -14,8 +15,8 @@ void Scene::init()
 {
 	actors_.emplace_back(std::make_shared<ActorCamera>(weak_from_this()));
 	actors_.emplace_back(std::make_shared<ActorBackground>(weak_from_this()));
-	actors_.emplace_back(std::make_shared<ActorFbx>(weak_from_this(), "resource\\cube.fbx"));
-	// actors_.emplace_back(std::make_shared<ActorFbx>(weak_from_this(), "resource\\sphere.fbx"));
+	actors_.emplace_back(std::make_shared<ActorGrid>(weak_from_this()));
+	actors_.emplace_back(std::make_shared<ActorFbx>(weak_from_this(), "resource\\sphere.fbx"));
 	actors_.emplace_back(std::make_shared<ActorCoordinateAxis>(weak_from_this()));
 }
 
