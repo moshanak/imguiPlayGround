@@ -56,9 +56,12 @@ void ActorCamera::update()
 	scene_.lock()->setViewMat4(viewMat4_);
 
 	// projMat4_ = glm::perspective(glm::radians(45.f), 1.33f, 0.1f, 1000.f);
-	const float halfWidth = 0.5f * static_cast<float>(windowMain.width());
-	const float halfHeight = 0.5f * static_cast<float>(windowMain.height());
-	projMat4_ = glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, 0.1f, 10000.0f);
+	float halfWidth = 0.5f * static_cast<float>(windowMain.width());
+	float halfHeight = 0.5f * static_cast<float>(windowMain.height());
+	float base = std::max(halfWidth, halfHeight);
+	halfWidth = halfWidth / base * 1000.0f;
+	halfHeight = halfHeight / base * 1000.0f;
+	projMat4_ = glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, 0.1f, 100000.0f);
 	scene_.lock()->setProjMat4(projMat4_);
 }
 
