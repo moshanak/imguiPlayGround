@@ -2,6 +2,10 @@
 #include "Scene.h"
 #include "WindowMain.h"
 #include <glm/gtx/quaternion.hpp>
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+#include <iostream>
 
 ActorCamera::ActorCamera(std::weak_ptr<Scene> scene)
 	: Actor(scene)
@@ -29,26 +33,35 @@ void ActorCamera::update()
 	glm::mat4x4 mat4 = glm::toMat4(glm::quat(glm::vec3(-pitch_, -yaw_, 0.0f)));
 	mat4 = glm::inverse(mat4);
 
-	glm::vec4 moveHorizontal(5, 0, 0, 1);
-	moveHorizontal = mat4 * moveHorizontal;
-	if (windowMain.pressKeyLeft())
 	{
-		eye_ -= glm::vec3(moveHorizontal);
+		glm::vec4 moveHorizontal(5, 0, 0, 1);
+		moveHorizontal = mat4 * moveHorizontal;
+		if (windowMain.pressKeyLeft())
+		{
+			eye_ -= glm::vec3(moveHorizontal);
+		}
+		if (windowMain.pressKeyRight())
+		{
+			eye_ += glm::vec3(moveHorizontal);
+		}
 	}
-	if (windowMain.pressKeyRight())
 	{
-		eye_ += glm::vec3(moveHorizontal);
+		glm::vec4 moveVertical(0, 5, 0, 1);
+		moveVertical = mat4 * moveVertical;
+		if (windowMain.pressKeyDown())
+		{
+			eye_ -= glm::vec3(moveVertical);
+		}
+		if (windowMain.pressKeyUp())
+		{
+			eye_ += glm::vec3(moveVertical);
+		}
 	}
-	glm::vec4 moveVertical(0, 5, 0, 1);
-	moveVertical = mat4 * moveVertical;
-	if (windowMain.pressKeyDown())
-	{
-		eye_ -= glm::vec3(moveVertical);
-	}
-	if (windowMain.pressKeyUp())
-	{
-		eye_ += glm::vec3(moveVertical);
-	}
+
+	glm::vec4 moveForwardBackward(0, 0, -5, 1);
+	moveForwardBackward.z *= ImGui::GetIO().MouseWheel;
+	moveForwardBackward = mat4 * moveForwardBackward;
+	eye_ += glm::vec3(moveForwardBackward);
 
 	glm::vec3 center = glm::vec4(eye_, 1) + mat4 * glm::vec4(0, 0, -1, 1);
 	glm::vec3 up = mat4 * glm::vec4(0, 1, 0, 1);
