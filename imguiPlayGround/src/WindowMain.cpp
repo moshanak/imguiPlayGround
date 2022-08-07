@@ -167,10 +167,18 @@ void WindowMain::executeEventLoop()
 }
 
 WindowMain::WindowMain()
-	: width_(1920)
+	: glfwWindow_(nullptr)
+	, width_(1920)
 	, height_(1080)
+	, curMousePos_(glm::vec2())
+	, prevMousePos_(glm::vec2())
 	, pressMouseButtonRight_(false)
 	, pressMouseButtonLeft_(false)
+	, pressKeyRight_(false)
+	, pressKeyLeft_(false)
+	, pressKeyDown_(false)
+	, pressKeyUp_(false)
+	, backgroundColor_(glm::vec3())
 {
 }
 

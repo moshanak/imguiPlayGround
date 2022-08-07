@@ -10,6 +10,7 @@
 ActorGrid::ActorGrid(std::weak_ptr<Scene> scene)
 	: Actor(scene)
 {
+	mvpMat4_ = glm::mat4();
 	const int numOfLines = 1000;
 	const float interval = 100.0f;
 	const float limitCoordinates = static_cast<float>(numOfLines) * interval;
@@ -38,7 +39,7 @@ ActorGrid::ActorGrid(std::weak_ptr<Scene> scene)
 	coordinates.emplace_back(0.0f, -limitCoordinates, 0.0f);
 	coordinates.emplace_back(0.0f, limitCoordinates, 0.0f);
 
-	numOfPoints_ = coordinates.size();
+	numOfPoints_ = static_cast<int>(coordinates.size());
 
 	glGenBuffers(1, &coordinateBuffer_);
 	glBindBuffer(GL_ARRAY_BUFFER, coordinateBuffer_);

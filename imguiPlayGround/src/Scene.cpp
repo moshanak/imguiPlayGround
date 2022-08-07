@@ -8,6 +8,8 @@
 #include <GL/glew.h>
 
 Scene::Scene()
+	: projMat4_(glm::mat4())
+	, viewMat4_(glm::mat4())
 {
 }
 
