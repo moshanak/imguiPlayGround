@@ -76,16 +76,16 @@ ActorFbx::ActorFbx(std::weak_ptr<Scene> scene, const std::string& fbxFilePath)
 		FbxVector4* vertices = mesh->GetControlPoints();
 		int* indices = mesh->GetPolygonVertices();
 		int polygonVertexCount = mesh->GetPolygonVertexCount();
-		for (int i = 0; i < polygonVertexCount; i++)
+		for (int j = 0; j < polygonVertexCount; j++)
 		{
-			int index = indices[i];
-			coordinates.push_back(vertices[index][0]);
-			coordinates.push_back(vertices[index][1]);
-			coordinates.push_back(vertices[index][2]);
+			int index = indices[j];
+			coordinates.push_back(static_cast<float>(vertices[index][0]));
+			coordinates.push_back(static_cast<float>(vertices[index][1]));
+			coordinates.push_back(static_cast<float>(vertices[index][2]));
 		}
 	}
 
-	numOfPoints_ = coordinates.size() / 3;
+	numOfPoints_ = static_cast<int>(coordinates.size() / 3);
 	glGenBuffers(1, &coordinateBuffer_);
 	glBindBuffer(GL_ARRAY_BUFFER, coordinateBuffer_);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * coordinates.size(), coordinates.data(), GL_STATIC_DRAW);

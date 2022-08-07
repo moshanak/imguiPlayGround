@@ -2,6 +2,8 @@
 #include <iostream>
 
 GLSL::GLSL()
+	: program_(0)
+	, shader_(0)
 {
 	program_ = glCreateProgram();
 }

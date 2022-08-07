@@ -12,6 +12,8 @@ ActorCamera::ActorCamera(std::weak_ptr<Scene> scene)
 	, yaw_(0.0f)
 	, pitch_(0.0f)
 {
+	viewMat4_ = glm::mat4();
+	projMat4_ = glm::mat4();
 	eye_ = glm::vec3(0, 0, 500);
 }
 
